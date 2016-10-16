@@ -76,9 +76,13 @@ class MyUserService extends QueuekitUserService {
 	Locale  getUserLocale(Long userId) {
 		return Locale.UK
 	}
-	
-	
-	
+
+	Long getRealUserId(String searchBy) {
+		User user = User.findByUsername(searchBy)
+		println "@@ ${user} vs ${searchBy}"
+		return user?.id
+	}
+
 	/*
 	 * Another method to override
 	 * Whilst you can configure a report to have LOW priority

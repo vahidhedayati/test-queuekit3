@@ -36,7 +36,7 @@ queuekit {
 	checkQueueOnStart=true
 	keepAliveTime=300
 
-	corePoolSize=1
+	corePoolSize=3
 
 	maximumPoolSize=3
 
@@ -74,19 +74,16 @@ queuekit {
 	killLongRunningTasks=300
 
 	defaultComparator=false
-
 	useEmergencyExecutor=false
-
-
-	manualDownloadEnabled=true
-
+	manualDownloadEnabled=false
 	deleteEntryOnDelete=false
 
-	//forceFloodControl=0
+	forceFloodControl=2
 	//limitUserBelowPriority=0
 	//limitUserAbovePriority=0
 	disableExamples=false
-	standardRunnable=true
+	standardRunnable=false
+	disableUserServicePriorityCheck=false
 
 	//disableUserServicePriorityCheck=false
 }

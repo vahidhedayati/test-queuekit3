@@ -21,4 +21,4 @@ if (Environment.isDevelopmentMode() && targetDir) {
     }
     logger("StackTrace", ERROR, ['FULL_STACKTRACE'], false)
 }
-logger("grails.app.services.org.grails.plugin.queuekit.examples", INFO, ['STDOUT'])
+//logger("grails.app.services.org.grails.plugin.queuekit.examples", INFO, ['STDOUT'])
