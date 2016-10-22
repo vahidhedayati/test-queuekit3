@@ -64,7 +64,15 @@ dependencies {
     compile 'org.grails.plugins:spring-security-core:3.0.3'
 
     //compile project(':queuekit')
-    compile "org.grails.plugins:queuekit:1.8"
+
+    compile "org.grails.plugins:queuekit:1.9"
+
+    // Export plugin
+	 compile "org.grails.plugins:export:2.0.0"
+
+    //Apache POI
+    compile "org.apache.poi:poi:3.14"
+    compile "org.apache.poi:poi-ooxml:3.14"
 
 }
 

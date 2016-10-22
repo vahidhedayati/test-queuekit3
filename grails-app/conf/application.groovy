@@ -19,6 +19,10 @@ grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 	[pattern: '/queueKit/**',      access: ['ROLE_USER','ROLE_ADMIN']],
 	[pattern: '/reportDemo/**/**',      access: ['ROLE_USER','ROLE_ADMIN']],
 	[pattern: '/queueKit/**/**',      access: ['ROLE_USER','ROLE_ADMIN']],
+	[pattern: '/testExport/**/**',      access: ['ROLE_USER','ROLE_ADMIN']],
+	[pattern: '/apachePoiXls/**/**',      access: ['ROLE_USER','ROLE_ADMIN']],
+	[pattern: '/testAddress/**/**',      access: ['ROLE_USER','ROLE_ADMIN']],
+	[pattern: '/testAttributes/**/**',      access: ['ROLE_USER','ROLE_ADMIN']],
 	[pattern: '/**/test/**', access: ['permitAll']]
 ]
 
@@ -48,7 +52,10 @@ queuekit {
 	reportDownloadPath='/tmp'
 	removalDay=5
 	removalDownloadedDay=1
-	bufferedWriterTypes=['TSV','CSV','tsv','csv']
+	// CSV will now be handled by Export Plugin so in effect writerType is changed
+	// If I were doing a basic stream of csv then it be added to this list
+	bufferedWriterTypes=['TSV','tsv']
+	//bufferedWriterTypes=['TSV','CSV','tsv','csv']
 	reportPriorities = [
 			tsvExample1:org.grails.plugin.queuekit.priority.Priority.REALLYSLOW,
 			csvExample1:org.grails.plugin.queuekit.priority.Priority.HIGHEST,
@@ -86,4 +93,7 @@ queuekit {
 	disableUserServicePriorityCheck=false
 
 	//disableUserServicePriorityCheck=false
+	hideQueuePriority=false
+	hideQueueType=false
+
 }

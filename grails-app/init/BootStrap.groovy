@@ -1,11 +1,18 @@
 import testing.Role
+import testing.TestAddress
+import testing.TestAttributes
+import testing.TestExport
 import testing.User
 import testing.UserRole
+
+import java.rmi.server.UID
+import java.security.SecureRandom
 
 class BootStrap {
 
     def springSecurityService
-
+    static prng = new SecureRandom()
+    Random random = new Random()
     def init = { servletContext ->
 
         String admin='admin'
@@ -30,6 +37,13 @@ class BootStrap {
         if (!normalUser.authorities.contains(userRole)) {
             UserRole.create normalUser, userRole, true
             println "-- Roles ${normalUser.getAuthorities()}"
+        }
+        int i=0
+        while (i < 500 ) {
+            new TestExport(name: i as String, text: new UID().toString() + prng.nextLong() + System.currentTimeMillis() ).save(flush:true)
+            new TestAddress(name: i as String, adress: "ADDRESS_"+new UID().toString() + prng.nextLong() + System.currentTimeMillis() ).save(flush:true)
+            new TestAttributes(name: i as String, adress: "ATTRIBUTES_"+new UID().toString() + prng.nextLong() + System.currentTimeMillis() ).save(flush:true)
+            i++
         }
     }
 
