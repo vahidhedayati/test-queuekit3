@@ -1,6 +1,5 @@
 package test
 
-import grails.util.Holders
 import org.grails.plugin.queuekit.ReportsQueue
 import org.grails.plugin.queuekit.reports.QueuekitBaseReportsService
 import testing.TestExport
@@ -20,17 +19,23 @@ class ExportPluginExampleReportingService extends QueuekitBaseReportsService {
 	String getReportExension() {
 		return 'xls'
 	}
-	def actionInternal(out,bean, queryResults,Locale locale) {
-		actionReport1Report(out,bean,queryResults)
+
+	def actionInternal(ReportsQueue queue,out,bean, queryResults,Locale locale) {
+		actionReport1Report(queue,out,bean,queryResults)
 	}
 
 
-	private void actionReport1Report(out,bean,queryResults) {
+	private void actionReport1Report(queue,out,bean,queryResults) {
 		String format=bean.f ?: 'html'
 		log.debug "Params received  ${bean.f} ${bean.extension} "
 		if(format && format != "html"){
-			TestExport.withTransaction{
-				exportService.export(format, (OutputStream)out, TestExport.list(bean),[:], [:])
+			try {
+				TestExport.withTransaction {
+					exportService.export(format, (OutputStream) out, TestExport.list(bean), [:], [:])
+				}
+			} catch (Exception e) {
+				println "EROROROR_________________________________________"
+				super.errorReport(queue,bean)
 			}
 		}
 	}

@@ -22,9 +22,11 @@ class ExportPluginAdvancedReportingService extends QueuekitBaseReportsService {
 		return 'xls'
 	}
 
-	def actionInternal(out,bean, queryResults,Locale locale) {
-		actionReport1Report(out,bean,queryResults)
+
+	def actionInternal(ReportsQueue queue,out,bean, queryResults,Locale locale) {
+		actionReport1Report(queue,out,bean,queryResults)
 	}
+
 
 	/**
 	 *
@@ -36,38 +38,43 @@ class ExportPluginAdvancedReportingService extends QueuekitBaseReportsService {
 	 * 				above. This then will continue working and hit this block
 	 * 				which will carry out real export service task at hand.
      */
-	private void actionReport1Report(out,bean,queryResults) {
+
+	private void actionReport1Report(queue,out,bean,queryResults) {
 		String format=bean.f ?: 'html'
 		if(format && format != "html"){
 			log.debug "Params received  ${bean.f} ${bean.extension} "
 			def domain= bean.domainClass
-
-			if (domain) {
-				println "got Domain ${domain}"
-				//	def domainClass = Holders.grailsApplication?.domainClasses?.find { it.clazz.simpleName == uc(domain) }?.clazz
-				def domainClass = Holders.grailsApplication.getDomainClass(domain)?.clazz
-				if (domainClass) {
-					println "we have a real domainClass ${domainClass}"
-					domainClass.withTransaction {
-						Map formatters=[:]
-						Map parameters=[:]
-						switch (domain) {
-							case 'testing.TestAddress':
-								println "custom testAddress stuff here"
-								//formatters=[:]
-								//parameters=[:]
-								//bean.something=SomethingElse
-								break
-							case 'testing.TestAttribues':
-								println "custom testAttributes stuff here"
-								//What would you like to do
-								//formatters=[:]
-								//parameters=[:]
-								break
+			try {
+				if (domain) {
+					println "got Domain ${domain}"
+					//	def domainClass = Holders.grailsApplication?.domainClasses?.find { it.clazz.simpleName == uc(domain) }?.clazz
+					def domainClass = Holders.grailsApplication.getDomainClass(domain)?.clazz
+					if (domainClass) {
+						println "we have a real domainClass ${domainClass}"
+						domainClass.withTransaction {
+							Map formatters=[:]
+							Map parameters=[:]
+							switch (domain) {
+								case 'testing.TestAddress':
+									println "custom testAddress stuff here"
+									//formatters=[:]
+									//parameters=[:]
+									//bean.something=SomethingElse
+									break
+								case 'testing.TestAttribues':
+									println "custom testAttributes stuff here"
+									//What would you like to do
+									//formatters=[:]
+									//parameters=[:]
+									break
+							}
+							exportService.export(format, (OutputStream) out, domainClass.list(bean),formatters,parameters)
 						}
-						exportService.export(format, (OutputStream) out, domainClass.list(bean),formatters,parameters)
 					}
 				}
+			} catch (Exception e) {
+				println "EROROROR_________________________________________"
+				super.errorReport(queue,bean)
 			}
 		}
 	}

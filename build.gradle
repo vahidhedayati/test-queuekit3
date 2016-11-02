@@ -65,7 +65,7 @@ dependencies {
 
     //compile project(':queuekit')
 
-    compile "org.grails.plugins:queuekit:1.9"
+    compile "org.grails.plugins:queuekit:1.10"
 
     // Export plugin
 	 compile "org.grails.plugins:export:2.0.0"
